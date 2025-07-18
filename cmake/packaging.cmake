@@ -5,7 +5,7 @@
 # build a CPack driven installer package
 include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
-set(CPACK_PACKAGE_DIRECTORY ${CMAKE_SOURCE_DIR}/dist)
+# set(CPACK_PACKAGE_DIRECTORY ${CMAKE_SOURCE_DIR}/dist)
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
@@ -61,5 +61,9 @@ else()
 endif()
 
 #if (NOT CPack_CMake_INCLUDED)
-include(CPack)
+# #
+# # If CMake is run with the Makefile or Ninja generator, then include(CPack) also generates a target package_source. To build a source package, instead of cpack -G TGZ --config CPackSourceConfig.cmake one may call cmake --build . --target package_source, make package_source, or ninja package_source.
+# include(CPack)
+# # https://cmake.org/cmake/help/latest/module/CPack.html#targets-package-and-package-source
+# #
 #endif ()
