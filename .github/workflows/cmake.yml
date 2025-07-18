@@ -522,7 +522,7 @@ jobs:
         if: runner.os == 'Windows'
         working-directory: ./build
         run: |
-          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -C ${{matrix.build_type}}
+          OpenCppCoverage.exe --export_type cobertura:coverage.xml --cover_children -- ctest -V -C "${{matrix.config.build_type}}"
 
       # - name: Unix - Test and coverage
       #   if: runner.os != 'Windows'
@@ -586,7 +586,7 @@ jobs:
         # if: contains(github.ref, 'tags/v')
         run: |
           # cmake -E tar cfv ../${{ matrix.config.artifact }} --format=7zip .
-          cpack -V -G ${{matrix.config.package_generator}} -C "${{matrix.config.build_type}}"
+          cpack -V -G ${{matrix.config.package_generator}} -C "${{matrix.config.build_type}}" --config ../build/CPackConfig.cmake
 
       - name: Create Release
         id: create_release
