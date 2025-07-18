@@ -413,7 +413,7 @@ jobs:
             ~/Library/Caches/ccache
             ${{ env.LOCALAPPDATA }}/ccache
             ${{ env.XDG_CACHE_HOME }}/ccache
-          key: ${{ runner.os }}-${{ matrix.config.compiler }}-${{ matrix.config.build_type }}-${{ hashFiles('**/CMakeLists.txt', './vcpkg.json') }}
+          key: ${{ runner.os }}-${{ matrix.config.build_type }}-${{ matrix.config.compiler }}-${{ hashFiles('**/CMakeLists.txt', './vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.config.build_type }}-
 
@@ -497,7 +497,7 @@ jobs:
       # has meaningful results
       - name: CMake Configure
         run: |
-          # cmake -S . -B ./build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE:STRING="${{matrix.build_type}}" -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.developer_mode}} -DENABLE_COVERAGE:BOOL=${{ matrix.build_type == 'Debug' }} -DGIT_SHA:STRING=${{ github.sha }}
+          # cmake -S . -B ./build -G "${{matrix.config.generator}}" -DCMAKE_BUILD_TYPE:STRING="${{matrix.config.build_type}}" -DENABLE_DEVELOPER_MODE:BOOL=${{matrix.config.developer_mode}} -DENABLE_COVERAGE:BOOL=${{ matrix.config.build_type == 'Debug' }} -DGIT_SHA:STRING=${{ github.sha }}
 
           cmake -S . -B ./build -G "${{matrix.config.generator}}" -D${{ env.PROJECT_NAME }}_ENABLE_IPO=${{matrix.config.enable_ipo }} -DCMAKE_BUILD_TYPE:STRING=${{matrix.config.build_type}} -D${{ env.PROJECT_NAME }}_PACKAGING_MAINTAINER_MODE:BOOL=${{matrix.config.packaging_maintainer_mode}} -D${{ env.PROJECT_NAME }}_ENABLE_COVERAGE:BOOL=${{ matrix.config.build_type == 'Debug' }} -DGIT_SHA:STRING=${{ github.sha }}
 
