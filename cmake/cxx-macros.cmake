@@ -327,13 +327,14 @@ macro(define_cxx_executable_project name)
         endif()
 
 
-        set(_lib_bin_dir bin)
+        set(_lib_bin_dir ${EXECUTABLE_OUTPUT_PATH})
         if(NOT "${dicep_ARG_INSTALL_INC_DIR}" STREQUAL "")
             set(_lib_bin_dir "${dicep_ARG_INSTALL_INC_DIR}")
         elseif(${dicep_ARG_INCLUDE_DIRECTORIES})
             list(GET dicep_ARG_INCLUDE_DIRECTORIES 0 _lib_bin_dir)
         endif()
         get_filename_component(_lib_bin_dir ${_lib_bin_dir} REALPATH)
+        message(STATUS "[INSTALL] _lib_bin_dir ----- ${_lib_bin_dir}")
 
         set(_lib_inc_dir include)
         if(NOT "${dicep_ARG_INSTALL_INC_DIR}" STREQUAL "")
@@ -378,6 +379,7 @@ macro(define_cxx_executable_project name)
                 DESTINATION
                 ${CONFIG_PACKAGE_INSTALL_DIR}/MacOS # GUI app
             )
+            message(STATUS "[INSTALL] bin file ----- ${_lib_bin_dir}/${PROJ_NAME}")
 
             install(FILES
                 "${_lib_bin_dir}/${PROJ_NAME}"
