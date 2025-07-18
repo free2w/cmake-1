@@ -30,7 +30,7 @@ jobs:
       contents: write
       discussions: write
       security-events: write
-    name: ${{ matrix.config.name }} ${{ matrix.config.build_type == "Release" && "rel" || "dbg" }} ${{ matrix.config.package_generator }} ${{ matrix.config.build_shared }}
+    name: ${{ matrix.config.name }} ${{ matrix.config.build_type == 'Release' && 'rel' || 'dbg' }} ${{ matrix.config.package_generator }} ${{ matrix.config.build_shared }}
     # runs-on: ${{ matrix.config.os }}
     # name: ${{matrix.os}} ${{matrix.compiler}} ${{matrix.build_type}} ${{matrix.packaging_maintainer_mode == 'ON' && '(maintainer mode)' || ''}}
     runs-on: ${{ matrix.config.os }}
