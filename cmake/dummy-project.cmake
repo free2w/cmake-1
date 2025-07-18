@@ -45,6 +45,7 @@ include(detect-systems) # detect OS, ...
 include(cxx-macros) # macros: define_cxx_executable_project, ...
 include(version-def) # load .version.cmake
 include(versions-gen) # generate config.h and version.hh
+include(packaging)
 
 # when using compiler with cmake multi-config feature, a special build type 'Asan' can be used for sanitizing test.
 # enable_sanitizer_for_multi_config()
