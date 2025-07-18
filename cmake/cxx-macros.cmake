@@ -327,7 +327,12 @@ macro(define_cxx_executable_project name)
         endif()
 
 
-        set(_lib_bin_dir ${EXECUTABLE_OUTPUT_PATH})
+        get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+        if(is_multi_config)
+            set(_lib_bin_dir ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_BUILD_TYPE})
+        else()
+            set(_lib_bin_dir ${EXECUTABLE_OUTPUT_PATH})
+        endif()
         if(NOT "${dicep_ARG_INSTALL_INC_DIR}" STREQUAL "")
             set(_lib_bin_dir "${dicep_ARG_INSTALL_INC_DIR}")
         elseif(${dicep_ARG_INCLUDE_DIRECTORIES})
@@ -350,6 +355,7 @@ macro(define_cxx_executable_project name)
         if(dicep_ARG_INSTALL)
             # Setup package config
             include(CMakePackageConfigHelpers)
+            include(GNUInstallDirs)
 
             # for dmg build under Darwin, 
             # 
@@ -372,20 +378,33 @@ macro(define_cxx_executable_project name)
             #             message(STATUS "[${PROJ_NAME}] file written: ${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}-config-version.cmake")
 
 
-            set(_lib_bin_prefix "${_lib_bin_dir}/${PROJ_NAME}")
+            # set(_lib_bin_prefix "${_lib_bin_dir}/${PROJ_NAME}")
 
-            install(FILES
-                "${_lib_bin_dir}/${PROJ_NAME}"
+            install(TARGETS ${PROJ_NAME}
                 DESTINATION
-                ${CONFIG_PACKAGE_INSTALL_DIR}/MacOS # GUI app
+                bin # ${CONFIG_PACKAGE_INSTALL_DIR}/bin
             )
-            message(STATUS "[INSTALL] bin file ----- ${_lib_bin_dir}/${PROJ_NAME}")
+            # install(FILES
+            #     "${_lib_bin_dir}/${PROJ_NAME}"
+            #     DESTINATION
+            #     ${CONFIG_PACKAGE_INSTALL_DIR}/bin
+            # )
+            # message(STATUS "[INSTALL] bin file ----- ${_lib_bin_dir}/${PROJ_NAME}")
 
-            install(FILES
-                "${_lib_bin_dir}/${PROJ_NAME}"
-                DESTINATION
-                ${CONFIG_PACKAGE_INSTALL_DIR}/Resources/app/bin # cli app
-            )
+            if(GUI_APP_BUILD)
+                install(FILES
+                    "${_lib_bin_dir}/${PROJ_NAME}"
+                    DESTINATION
+                    ${CONFIG_PACKAGE_INSTALL_DIR}/MacOS # GUI app
+                )
+                message(STATUS "[INSTALL] bin file ----- ${_lib_bin_dir}/${PROJ_NAME}")
+
+                install(FILES
+                    "${_lib_bin_dir}/${PROJ_NAME}"
+                    DESTINATION
+                    ${CONFIG_PACKAGE_INSTALL_DIR}/Resources/app/bin # cli app
+                )
+            endif()
 
             # # Install target and header
             # install(DIRECTORY ${_lib_inc_prefix}
