@@ -1,5 +1,7 @@
 ## PACKAGING ##################################################
 
+include(detect-systems)
+
 # https://cmake.org/cmake/help/latest/module/CPack.html
 
 # build a CPack driven installer package
@@ -59,6 +61,8 @@ elseif(macOS)
 else()
     message(STATUS ">>>> Found unknown distribution (DISTRO_NAME=${DISTRO_NAME}, ID=${DISTRO_ID}) <<<<")
 endif()
+
+message(STATUS ">>>> DISTRO_NAME=${DISTRO_NAME}, ID=${DISTRO_ID} <<<<")
 
 #if (NOT CPack_CMake_INCLUDED)
 # #

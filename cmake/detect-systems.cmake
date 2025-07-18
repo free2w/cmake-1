@@ -24,7 +24,7 @@
 
 # for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
 if(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Darwin" OR APPLE)
-    # MESSAGE("** Darwin detected.")
+    message("** Darwin detected.")
     set(MACOSX TRUE)
     set(MACOS TRUE)
     set(macOS TRUE)
