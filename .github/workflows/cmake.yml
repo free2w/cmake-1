@@ -95,7 +95,7 @@ jobs:
             build_type: release,
             generator: "Ninja Multi-Config",
             packaging_maintainer_mode: ON,
-            package_generator: DMG,
+            package_generator: DragNDrop, # for DMG: "DragNDrop", for PKG: "Bundle"
             build_shared: OFF,
             cc: "clang", cxx: "clang++"
 
