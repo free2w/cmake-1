@@ -1084,6 +1084,8 @@ _build/
 _msvc_build/
 .idea/
 install/
+instdir/
+installdir/
 
 *.local.cmake
 *.local
