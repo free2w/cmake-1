@@ -38,25 +38,25 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.zip",
-            os: windows-latest,
-            compiler: msvc,
-            gcov_executable: gcov-14,
-            enable_ipo: OFF,
-            build_type: Release,
-            generator: "Visual Studio 17 2022",
-            packaging_maintainer_mode: OFF,
-            package_generator: ZIP,
-            build_shared: OFF,
-            cc: "cl", cxx: "cl",
-            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-            tcf: "-D CMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          # - {
+          #   name: "Windows Latest MSVC", artifact: ".zip",
+          #   os: windows-latest,
+          #   compiler: msvc,
+          #   gcov_executable: gcov-14,
+          #   enable_ipo: OFF,
+          #   build_type: Release,
+          #   generator: "Visual Studio 17 2022",
+          #   packaging_maintainer_mode: OFF,
+          #   package_generator: ZIP,
+          #   build_shared: OFF,
+          #   cc: "cl", cxx: "cl",
+          #   environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+          #   tcf: "-D CMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
-            # https://github.com/actions/runner-images/blob/macos-14-arm64/20240827.4/images/windows/Windows2022-Readme.md
-          }
+          #   # https://github.com/actions/runner-images/blob/macos-14-arm64/20240827.4/images/windows/Windows2022-Readme.md
+          # }
           - {
-            name: "Ubuntu Latest GCC", artifact: "Linux.7z",
+            name: "Ubuntu Latest GCC", artifact: ".deb",
             os: ubuntu-latest,
             compiler: gcc-14,
             gcov_executable: OpenCppCoverage.exe,
@@ -74,7 +74,7 @@ jobs:
               # https://github.com/actions/runner-images/blob/macos-14-arm64/20240827.4/images/ubuntu/Ubuntu2404-Readme.md
           }
           - {
-            name: "Ubuntu Latest LLVM", artifact: "Linux.7z",
+            name: "Ubuntu Latest LLVM", artifact: ".tbz2",
             os: ubuntu-latest,
             compiler: llvm-19.1.1,
             gcov_executable: "llvm-cov gcov",
@@ -86,36 +86,36 @@ jobs:
             build_shared: OFF,
             cc: "clang", cxx: "clang++"
           }
-          - {
-            name: "macOS Latest Arm64", artifact: "macOS.7z",
-            os: macos-latest,
-            compiler: clang,
-            gcov_executable: gcov-14,
-            enable_ipo: On,
-            build_type: release,
-            generator: "Ninja Multi-Config",
-            packaging_maintainer_mode: ON,
-            package_generator: DragNDrop, # for DMG: "DragNDrop", for PKG: "Bundle"
-            build_shared: OFF,
-            cc: "clang", cxx: "clang++"
-
-              # https://github.com/actions/runner-images/blob/macos-14-arm64/20240827.4/images/macos/macos-14-arm64-Readme.md
-              # https://github.com/actions/runner-images/releases/tag/macos-14-arm64%2F20240827.4
-          }
           # - {
-          #   name: "macOS Latest Arm64", artifact: "macOS.7z",
+          #   name: "macOS Latest Arm64", artifact: ".dmg",
           #   os: macos-latest,
-          #   compiler: llvm-19.1.1,
+          #   compiler: clang,
+          #   gcov_executable: gcov-14,
+          #   enable_ipo: On,
+          #   build_type: release,
+          #   generator: "Ninja Multi-Config",
+          #   packaging_maintainer_mode: ON,
+          #   package_generator: DragNDrop, # for DMG: "DragNDrop", for PKG: "Bundle"
+          #   build_shared: OFF,
           #   cc: "clang", cxx: "clang++"
+
+          #     # https://github.com/actions/runner-images/blob/macos-14-arm64/20240827.4/images/macos/macos-14-arm64-Readme.md
+          #     # https://github.com/actions/runner-images/releases/tag/macos-14-arm64%2F20240827.4
           # }
-          # macOS Latest Intel not support in free plan
-          # - {
-          #   name: "macOS Latest Intel", artifact: "macOS-intel.7z",
-          #   os: macos-latest-large,
-          #   cc: "clang", cxx: "clang++"
-          #
-          #     # https://github.com/actions/runner-images
-          # }
+          # # - {
+          # #   name: "macOS Latest Arm64", artifact: "macOS.7z",
+          # #   os: macos-latest,
+          # #   compiler: llvm-19.1.1,
+          # #   cc: "clang", cxx: "clang++"
+          # # }
+          # # macOS Latest Intel not support in free plan
+          # # - {
+          # #   name: "macOS Latest Intel", artifact: "macOS-intel.7z",
+          # #   os: macos-latest-large,
+          # #   cc: "clang", cxx: "clang++"
+          # #
+          # #     # https://github.com/actions/runner-images
+          # # }
 
         # os:
         #   # - windows-2022
@@ -609,9 +609,11 @@ jobs:
           # body: |
           #   This release was created by: ${{ github.event.sender.login }}
           #   Release of ${{ github.ref }}, built from commit ${{ env.SHORT_SHA }}, is now available.
+          # files: |
           #  ./cmdr-*.*
+          #   build/*-*${{ matrix.config.build_type }}*-*.*
           files: |
-            build/*-*${{ matrix.config.build_type }}*-*.*
+            build/packages/*${{ matrix.config.artifact }}
 
       # - name: Publish to codecov
       #   uses: codecov/codecov-action@v2
