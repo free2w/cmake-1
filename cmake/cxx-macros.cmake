@@ -1104,8 +1104,12 @@ macro(enable_version_increaser target PROJECT_MACRO_NAME PROJECT_MACRO_SHORT_NAM
     # cannot work on a INTERFACE library target
     find_program(PYTHON_OK "python3")
     if(PYTHON_OK)
+        set(prog ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/versions-extract.py)
+        if(EXISTS ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/cmake-mods/${CMAKE_SCRIPTS}/versions-extract.py)
+            set(prog ${CMAKE_SOURCE_DIR}/${CMAKE_SCRIPTS}/cmake-mods/${CMAKE_SCRIPTS}/versions-extract.py)
+        endif()
         add_custom_command(TARGET ${target} POST_BUILD
-            COMMAND python3 ${CMAKE_SOURCE_DIR}/cmake/versions-extract.py -n "${PROJECT_MACRO_NAME}" -s "${PROJECT_MACRO_SHORT_NAME}" -m "${PROJECT_MACRO_PREFIX}" -b "${CMAKE_BINARY_DIR}"
+            COMMAND python3 ${prog} -n "${PROJECT_MACRO_NAME}" -s "${PROJECT_MACRO_SHORT_NAME}" -m "${PROJECT_MACRO_PREFIX}" -b "${CMAKE_BINARY_DIR}"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             COMMENT "extracting version code and increase build-number part..."
             VERBATIM
